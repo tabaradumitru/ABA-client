@@ -1,0 +1,29 @@
+<div class="top-nav">
+  <p-menubar [model]="topLeftMenuItems" styleClass="top-menu">
+    <ng-template pTemplate="start">
+      <a routerLink="" class="p-mr-3">
+        <img class="logo" src="assets/images/logo.png" alt="Logo">
+      </a>
+    </ng-template>
+
+    <ng-template pTemplate="end">
+      <p-menubar
+        styleClass="top-right-menu"
+        [model]="topRightMenuItems"
+      ></p-menubar>
+    </ng-template>
+  </p-menubar>
+</div>
+
+<div class="container">
+  <div class="left-nav">
+    <p-menu styleClass="left-menu" [model]="leftMenuItems"></p-menu>
+  </div>
+
+  <div class="content p-d-flex">
+    <div class="p-col-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+

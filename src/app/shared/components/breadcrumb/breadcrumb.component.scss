@@ -1,0 +1,9 @@
+::ng-deep {
+  .custom-breadcrumb {
+    &.p-breadcrumb {
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+  }
+}

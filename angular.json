@@ -11,6 +11,7 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
+          "styles": ["scss"],
           "skipTests": true
         },
         "@schematics/angular:class": {
@@ -23,6 +24,12 @@
           "skipTests": true
         },
         "@schematics/angular:service": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
           "skipTests": true
         }
       },
@@ -44,7 +51,11 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeflex/primeflex.scss",
+              "src/assets/styles/styles.scss"
             ],
             "scripts": []
           },

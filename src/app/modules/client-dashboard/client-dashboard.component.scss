@@ -1,0 +1,61 @@
+@import "../../../assets/styles/_variables";
+
+::ng-deep {
+  .top-nav {
+    padding-left: 0;
+    margin: 0;
+    top: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 999;
+    height: 63px;
+    background: $color-white;
+
+    .logo {
+      max-width: 80px;
+    }
+
+    .p-menubar.top-menu,
+    .p-menubar.top-right-menu {
+      border: none;
+      border-radius: 0;
+      background: rgb(21, 101, 192);
+
+      .p-menubar-root-list > .p-menuitem > .p-menuitem-link .p-menuitem-text {
+        color: $color-white;
+      }
+
+      .p-menubar-root-list > .p-menuitem > .p-menuitem-link .p-menuitem-icon {
+        color: $color-white;
+      }
+
+      .p-menubar-root-list > .p-menuitem > .p-menuitem-link .p-submenu-icon {
+        color: $color-white;
+      }
+    }
+  }
+
+  .container {
+    height: calc(100% - 63px) !important;
+    position: fixed;
+    top: 63px;
+    width: 100%;
+    display: flex;
+    background: $color-grey-background;
+
+    .left-nav {
+      width: 300px;
+      border-right: 1px solid $color-form-border;
+      background: $color-white;
+
+      .p-menu.left-menu {
+        width: 100%;
+        border: none;
+      }
+    }
+
+    .content {
+      width: 100%;
+    }
+  }
+}

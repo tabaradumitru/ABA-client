@@ -1,0 +1,29 @@
+@import "../styles/_resets";
+@import "../styles/_variables";
+@import "../styles/_typography";
+
+html,
+body {
+  margin: 0 !important;
+  overflow: auto;
+
+  a {
+    color: $color-blue;
+    text-decoration: none;
+  }
+
+  table {
+    th,
+    td {
+      outline: none !important;
+    }
+
+    .expanded-cell {
+      text-align: center !important;
+    }
+  }
+}
+
+.w-100 {
+  width: 100%;
+}

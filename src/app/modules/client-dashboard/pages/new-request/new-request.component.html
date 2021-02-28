@@ -1,0 +1,101 @@
+<p-card styleClass="p-mb-3">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <app-breadcrumb [items]="items"></app-breadcrumb>
+    </div>
+  </div>
+</p-card>
+
+<p-card>
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-3">
+      <label for="activity">Activitate</label>
+      <p-dropdown
+        id="activity"
+        [options]="activities"
+        [(ngModel)]="request.activity"
+        [autoDisplayFirst]="false"
+        placeholder="Selectează activitatea"
+      ></p-dropdown>
+    </div>
+
+    <div class="p-col-9"></div>
+
+    <div class="p-field p-col-3">
+      <label for="phone">Telefon</label>
+      <p-inputMask
+        id="phone"
+        mask="(99) 999999"
+        [(ngModel)]="request.phone"
+        placeholder="(__) ______"
+        [unmask]="true"
+      ></p-inputMask>
+<!--      <input-->
+<!--        pInputText-->
+<!--        type="text"-->
+<!--        id="phone"-->
+<!--        placeholder="Introdu numărul de telefon personal"-->
+<!--        [(ngModel)]="request.phone"-->
+<!--      >-->
+    </div>
+
+    <div class="p-col-9"></div>
+
+    <div class="p-field p-col-3">
+      <label for="start-date">De la</label>
+      <p-calendar
+        id="start-date"
+        [showIcon]="true"
+        [(ngModel)]="request.startDate"
+        placeholder="Selectează data de început"
+      ></p-calendar>
+    </div>
+
+    <div class="p-field p-col-3">
+      <label for="end-date">Până la</label>
+      <p-calendar
+        id="end-date"
+        [showIcon]="true"
+        [(ngModel)]="request.endDate"
+        placeholder="Selectează data de sfârșit"
+      ></p-calendar>
+    </div>
+
+    <div class="p-col-6"></div>
+
+    <div class="p-field p-col-3">
+      <label for="receiving-method">Metoda de primire a permisului</label>
+      <p-multiSelect
+        id="receiving-method"
+        defaultLabel="Selectează metoda de primire"
+        [options]="receivingMethods"
+        [(ngModel)]="request.receivingMethod"
+      ></p-multiSelect>
+    </div>
+
+    <div class="p-col-9"></div>
+
+    <div class="p-field-checkbox p-col-3">
+      <p-checkbox
+        id="notify-expiry"
+        [(ngModel)]="request.notifyExpiry"
+        [binary]="true"
+      ></p-checkbox>
+      <label for="notify-expiry">Doresc să fiu notificat despre expirarea permisului</label>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-divider></p-divider>
+    </div>
+
+    <div class="p-col-12 p-d-flex p-jc-end">
+      <button
+        pButton
+        pRipple
+        label="Trimite"
+      ></button>
+    </div>
+  </div>
+</p-card>
