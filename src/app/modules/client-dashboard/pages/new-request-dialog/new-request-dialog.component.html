@@ -1,0 +1,227 @@
+<app-spinner *ngIf="configurationService.getLoading(loadingConstant)"></app-spinner>
+
+<form [formGroup]="requestForm" (submit)="addRequest()">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-col-12">
+      <h4 class="p-mt-0 bottom-bordered p-pb-2">Date Personale</h4>
+    </div>
+
+    <div class="p-field p-col-6">
+      <label for="first-name">Prenume</label>
+      <input
+        disabled
+        type="text"
+        pInputText
+        id="first-name"
+        placeholder="Dumitru"
+        [ngModel]="user.firstName"
+        [ngModelOptions]="{standalone: true}"
+      >
+    </div>
+
+    <div class="p-field p-col-6">
+      <label for="last-name">Nume</label>
+      <input
+        disabled
+        type="text"
+        pInputText
+        id="last-name"
+        placeholder="Tabără"
+        [ngModel]="user.lastName"
+        [ngModelOptions]="{standalone: true}"
+      >
+    </div>
+
+    <div class="p-field p-col-6">
+      <label for="idnp">IDNP</label>
+      <input
+        disabled
+        type="text"
+        pInputText
+        id="idnp"
+        placeholder="2008024014423"
+        [ngModel]="user.idnp"
+        [ngModelOptions]="{standalone: true}"
+      >
+    </div>
+
+    <div class="p-field p-col-6">
+      <label for="phone">Telefon <span class="red-text">*</span></label>
+      <p-inputMask
+        id="phone"
+        mask="(99) 99-99-99"
+        placeholder="(__) __-__-__"
+        formControlName="phone"
+        [unmask]="true"
+      ></p-inputMask>
+    </div>
+
+    <div class="p-col-12">
+      <h4 class="bottom-bordered p-pb-2">Date Generale</h4>
+    </div>
+
+    <div class="p-field p-col-4">
+      <label for="activity">Activitate <span class="red-text">*</span></label>
+      <p-dropdown
+        id="activity"
+        [options]="activities"
+        optionLabel="activityName"
+        optionValue="activityId"
+        formControlName="activityId"
+        [autoDisplayFirst]="false"
+        placeholder="Selectează activitatea"
+      ></p-dropdown>
+    </div>
+
+    <div class="p-field p-col-4">
+      <label for="start-date">De la <span class="red-text">*</span></label>
+      <p-calendar
+        id="start-date"
+        [showIcon]="true"
+        formControlName="startDateValue"
+        dateFormat="dd/mm/yy"
+        placeholder="Selectează data de început"
+      ></p-calendar>
+    </div>
+
+    <div class="p-field p-col-4">
+      <label for="end-date">Până la <span class="red-text">*</span></label>
+      <p-calendar
+        id="end-date"
+        [showIcon]="true"
+        formControlName="endDateValue"
+        [minDate]="requestForm.get('startDateValue').value"
+        dateFormat="dd/mm/yy"
+        placeholder="Selectează data de sfârșit"
+      ></p-calendar>
+    </div>
+
+    <div class="p-field p-col-4">
+      <label for="area">Zona <span class="red-text">*</span></label>
+      <p-multiSelect
+        id="area"
+        [options]="areas"
+        formControlName="areas"
+        (onChange)="onChangeArea($event.value)"
+        placeholder="Selectează zona"
+        [selectedItemsLabel]="'{0} zone selectate'"
+      ></p-multiSelect>
+    </div>
+
+    <div class="p-field p-col-4">
+      <label for="district">Oraș <span class="red-text">*</span></label>
+      <p-multiSelect
+        id="district"
+        [group]="true"
+        [options]="districts"
+        formControlName="districts"
+        (onChange)="onChangeDistrict($event.value)"
+        placeholder="Selectează orașul"
+        [selectedItemsLabel]="'{0} orașe selectate'"
+      ></p-multiSelect>
+    </div>
+
+    <div class="p-field p-col-4">
+      <label for="locality">Localitate <span class="red-text">*</span></label>
+      <p-multiSelect
+        id="locality"
+        [group]="true"
+        [options]="localities"
+        formControlName="localities"
+        placeholder="Selectează localitatea"
+        [selectedItemsLabel]="'{0} localități selectate'"
+      ></p-multiSelect>
+    </div>
+
+    <div class="p-field p-col-6">
+      <label for="receiving-method">Metoda de primire a permisului <span class="red-text">*</span></label>
+      <p-multiSelect
+        id="receiving-method"
+        defaultLabel="Selectează metoda de primire"
+        [options]="receivingMethods"
+        formControlName="receivingMethod"
+      ></p-multiSelect>
+    </div>
+
+    <div class="p-field p-col-6">
+      <label for="email">Poșta electronică <span *ngIf="request?.receivingMethod?.includes(1)" class="red-text">*</span></label>
+      <input
+        type="email"
+        pInputText
+        id="email"
+        placeholder="Introdu adresa poștei electronice"
+        formControlName="email"
+      >
+    </div>
+
+
+  </div>
+
+  <div class="p-fluid p-formgrip p-grid">
+    <div class="p-col-12">
+      <label for="notes">Notițe adiționale</label>
+      <textarea
+        pInputTextarea
+        id="notes"
+        autoResize="autoResize"
+        formControlName="notes"
+      ></textarea>
+    </div>
+
+    <div class="p-field-checkbox p-col-6">
+      <p-checkbox
+        inputId="notify-expiry"
+        formControlName="notifyExpiry"
+        [binary]="true"
+      ></p-checkbox>
+      <label for="notify-expiry">Doresc să fiu notificat despre expirarea permisului</label>
+    </div>
+
+    <div class="p-col-6" ></div>
+
+    <div class="p-col-12">
+      <h4 class="p-my-0 bottom-bordered p-pb-2">Termeni și Condiții:</h4>
+    </div>
+
+    <div class="p-col-6"></div>
+
+    <div class="p-field-checkbox p-col-12">
+      <p-checkbox
+        inputId="personal-data"
+        formControlName="personalDataAgreement"
+        [binary]="true"
+      ></p-checkbox>
+      <label for="personal-data"> <span class="red-text">*</span> În temeiul art.8 din Legea nr.133/2011 privind protecția datelor cu caracter personal, îmi exprim consâmțământul pentru prelucrarea datelor cu caracter personal care mă vizează în scopul eliberării permisului de acces în zona de frontieră</label>
+    </div>
+
+    <div class="p-field-checkbox p-col-12">
+      <p-checkbox
+        inputId="obey-law"
+        formControlName="obeyLawAgreement"
+        [binary]="true"
+      ></p-checkbox>
+      <label for="obey-law"> <span class="red-text">*</span> În timpul aflării în zona de frontieră, mă oblig să respect prevederile legislației în vigoare.</label>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-divider></p-divider>
+    </div>
+
+    <div class="p-col-6 p-d-flex p-ai-center">
+      <span class="red-text">* </span> <small class="small-text"> - Câmpuri obligatorii</small>
+    </div>
+
+    <div class="p-col-6 p-d-flex p-jc-end">
+      <button
+        pButton
+        pRipple
+        type="submit"
+        [disabled]="!requestForm.valid"
+        icon="pi pi-save"
+        label="Trimite"
+      ></button>
+    </div>
+  </div>
+</form>

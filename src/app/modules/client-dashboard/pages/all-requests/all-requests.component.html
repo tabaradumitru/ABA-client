@@ -1,18 +1,124 @@
-<div class="p-d-flex">
-  <div class="p-col-6">
-    <app-breadcrumb [items]="items"></app-breadcrumb>
-  </div>
+<p-card styleClass="p-mb-3">
+  <div class="p-grid p-nogutter p-d-flex p-ai-center">
+    <div class="p-col-6">
+      <app-breadcrumb [items]="items"></app-breadcrumb>
+    </div>
 
-  <div class="p-col-6 p-d-flex p-jc-end">
-    <button
-      pButton
-      pRipple
-      icon="pi pi-plus"
-      label="Depunere cerere"
-    ></button>
+    <div class="p-col-6 p-d-flex p-jc-end">
+      <button
+        pButton
+        pRipple
+        icon="pi pi-plus"
+        label="Cerere nouă"
+        (click)="openNewRequestDialog()"
+      ></button>
+    </div>
   </div>
+</p-card>
 
-  <div class="p-col-12 p-mt-3">
-    <p-table></p-table>
+<p-card>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-table
+        [value]="requests"
+        [tableStyle]="{'table-layout': 'auto'}"
+        selectionMode="single"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+            <th>Activitate</th>
+            <th>Localitate</th>
+            <th>Telefon</th>
+            <th>Dată Început</th>
+            <th>Dată Sfârșit</th>
+            <th>Status</th>
+            <th>Acțiune</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="row">
+            <td>{{rowIndex + 1}}</td>
+            <td>{{getActivityNameById(row.activityId)}}</td>
+            <td>
+              <div *ngFor="let area of getAreas(row)">
+                <span class="blue-text">Zona:</span> {{area.areaName}}
+                <div class="p-ml-4" *ngFor="let district of area.districts">
+                  <span class="green-text">Oraș: </span> {{district.districtName}}
+                  <div class="p-ml-4 localities-list"><span class="orange-text">Localități:</span> {{getLocalitiesAsString(district.localities)}}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{row.phone}}</td>
+            <td>{{row.startDate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{row.endDate | date: 'dd/MM/yyyy'}}</td>
+            <td>
+              <p-badge [value]="getStatusNameById(row.statusId)" [severity]="getStatusSeverityString(row.statusId)"></p-badge>
+            </td>
+            <td>
+              <button
+                type="button"
+                pButton
+                pRipple
+                class="p-button-rounded p-button-info p-button-sm p-mr-3"
+                icon="pi pi-eye"
+                pTooltip="Vizualizează cererea"
+                tooltipPosition="top"
+                *ngIf="row.statusId !== 2"
+              ></button>
+
+              <button
+                type="button"
+                pButton
+                pRipple
+                class="p-button-rounded p-button-info p-button-sm p-mr-3"
+                icon="pi pi-eye"
+                pTooltip="Vizualizează permisul"
+                tooltipPosition="top"
+                *ngIf="row.statusId === 2"
+              ></button>
+
+              <button
+                type="button"
+                pButton
+                pRipple
+                class="p-button-rounded p-button-secondary p-button-sm p-mr-3"
+                icon="pi pi-replay"
+                pTooltip="Reemite cererea"
+                tooltipPosition="top"
+              ></button>
+
+              <button
+                type="button"
+                pButton
+                pRipple
+                class="p-button-rounded p-button-danger p-button-sm"
+                icon="pi pi-times"
+                pTooltip="Anulează cererea"
+                tooltipPosition="top"
+                *ngIf="row.statusId === 1"
+              ></button>
+<!--              <button-->
+<!--                type="button"-->
+<!--                pButton-->
+<!--                pRipple-->
+<!--                class="p-button-rounded p-button-secondary p-button-sm"-->
+<!--                icon="pi pi-cog"-->
+<!--                (click)="actions.toggle($event)"-->
+<!--              ></button>-->
+
+<!--              <p-menu-->
+<!--                #actions-->
+<!--                [popup]="true"-->
+<!--                appendTo="body"-->
+<!--                [model]="actionMenu"-->
+<!--              ></p-menu>-->
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </div>
   </div>
-</div>
+</p-card>

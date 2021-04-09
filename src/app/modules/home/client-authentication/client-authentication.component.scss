@@ -1,0 +1,186 @@
+@import "../../../../assets/styles/variables";
+
+::ng-deep {
+  .authentication-container {
+    font-family: "Open Sans", sans-serif !important;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .top-container {
+    flex: 1 0 auto;
+  }
+
+  .fixed-container {
+    max-width: 1170px;
+    margin: auto;
+  }
+
+  .custom-grid-col {
+    padding: 15px;
+  }
+
+  .upper-header {
+    padding: .3rem;
+    color: $color-white !important;
+    font-size: 14px !important;
+
+    .pi {
+      font-size: 14px;
+    }
+
+    a {
+      color: $color-white;
+      font-size: 14px;
+      line-height: 1.42857143;
+      margin-left: 5px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .lower-header {
+    padding: 5px;
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+    margin-bottom: 20px;
+  }
+
+  .mpass-logo {
+    max-width: 150px;
+    margin: 5px;
+  }
+
+  .title-text {
+    font-size: 14px;
+    width: 200px;
+    color: #333;
+    white-space: pre-wrap;
+    display: inline-block;
+    line-height: 1.15;
+    margin-left: 10px;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  .mpass-bg-color {
+    background-color: $color-green-mpass;
+  }
+
+  .custom-header {
+    font-size: 30px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .option-container {
+    position: relative;
+    background-color: $color-green-mpass;
+    height: 315px;
+    border-radius: 3px;
+    padding: 9px;
+    display: flex;
+    flex-direction: column;
+
+    .floating-info-icon {
+      position: absolute;
+      top: 4px;
+      right: 7px;
+      color: $color-white;
+      font-size: 18px;
+      border-bottom: 1px solid $color-white;
+      line-height: 1.2;
+    }
+  }
+
+  .option-header {
+    font-size: 18px;
+    color: $color-white;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .custom-inputgroup {
+    margin-bottom: 15px;
+
+    .p-inputgroup-addon {
+      height: 34px;
+      background-color: #eee;
+      color: #555;
+      border: 1px solid #ccc;
+      border-right: none;
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+
+    .p-inputtext {
+      height: 34px;
+      color: #555;
+      border: 1px solid #ccc;
+      background-color: $color-white;
+      font-size: 14px;
+      padding: 6px 12px;
+
+      &::placeholder {
+        color: #555;
+        opacity: .8;
+      }
+    }
+  }
+
+  .custom-button {
+    font-family: "Open Sans", sans-serif !important;
+    background-color: $color-white;
+    color: #333;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    font-weight: bold;
+    border-color: #ccc;
+  }
+
+  .custom-small-link {
+    font-size: 12px !important;
+    color: $color-white;
+
+    a {
+      color: $color-white;
+      line-height: 1.42857143;
+    }
+  }
+
+  .footer {
+    flex-shrink: 0;
+    padding: 5px;
+    a {
+      color: $color-white;
+      line-height: 1.42857143;
+      font-size: 14px;
+    }
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      a {
+        font-size: 18px;
+      }
+    }
+
+    h2 {
+      margin: 0;
+      font-weight: 400;
+
+      a {
+        font-size: 30px;
+      }
+    }
+
+    .white-text {
+      font-size: 14px;
+    }
+  }
+}

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthenticationService } from '@services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-dashboard',
@@ -8,22 +10,20 @@ import { MenuItem } from 'primeng/api';
 })
 export class ClientDashboardComponent implements OnInit {
 
-  idnp: string = undefined;
-
   topLeftMenuItems: MenuItem[] = [{
     label: 'Acasă',
     icon: 'pi pi-home',
-    routerLink: ['/'],
+    routerLink: ['/acasa'],
     routerLinkActiveOptions: { exact: true }
   }, {
     label: 'Anunturi',
     icon: 'pi pi-bell',
-    routerLink: 'announcements',
+    routerLink: 'anunturi',
     routerLinkActiveOptions: {exact: true }
   }, {
     label: 'Contacte',
     icon: 'pi pi-phone',
-    routerLink: 'contacts',
+    routerLink: 'contacte',
     routerLinkActiveOptions: { exact: true }
   }];
 
@@ -32,27 +32,25 @@ export class ClientDashboardComponent implements OnInit {
     icon: 'pi pi-user',
     items: [{
       label: 'Log Out',
-      icon: 'pi pi-sign-out'
+      icon: 'pi pi-sign-out',
+      command: () => this.logOut()
     }]
   }];
 
   leftMenuItems: MenuItem[] = [{
     label: 'Cereri',
-    icon: 'pi pi-file',
-    routerLink: 'requests',
-    routerLinkActiveOptions: { exact: true },
-    state: { idnp: this.idnp }
+    icon: 'pi pi-envelope',
+    routerLink: 'cereri',
   }, {
     label: 'Permise',
     icon: 'pi pi-id-card',
-    routerLink: 'licenses',
-    routerLinkActiveOptions: { exact: true },
-    state: { idnp: this.idnp }
+    routerLink: 'permise',
+    routerLinkActiveOptions: { exact: true }
   }, {
     label: 'Legislatie',
     icon: 'pi pi-shield',
-    routerLink: 'law',
-    routerLinkActiveOptions: { exact: true },
+    routerLink: 'legislatie',
+    routerLinkActiveOptions: { exact: true }
   }, {
     label: 'FAQ',
     icon: 'pi pi-question',
@@ -60,11 +58,15 @@ export class ClientDashboardComponent implements OnInit {
     routerLinkActiveOptions: { exact: true }
   }];
 
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router) { }
 
   ngOnInit(): void {
-    // TODO: set user data
-    this.topRightMenuItems[0].label = '2008024014423';
+    this.topRightMenuItems[0].label = `${this.authenticationService.currentUserValue.firstName} ${this.authenticationService.currentUserValue.lastName}`;
   }
 
+  private logOut(): void {
+    this.router.navigate(['/']);
+    this.authenticationService.logOut();
+  }
 }

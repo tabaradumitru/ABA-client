@@ -13,7 +13,7 @@ export class BreadcrumbComponent {
   home: MenuItem = {
     label: '',
     icon: 'pi pi-home',
-    routerLink: '/dashboard'
+    routerLink: '/employee-dashboard'
   };
 
   constructor() { }

@@ -9,8 +9,8 @@ import { MenuItem } from 'primeng/api';
 export class AllLicensesComponent implements OnInit {
 
   items: MenuItem[] = [{
-    label: 'Permise',
-    routerLink: '/licenses'
+    label: 'PERMISE',
+    routerLink: '/permise'
   }];
 
   constructor() { }

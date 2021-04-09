@@ -2,7 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -15,7 +15,23 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@constants/*": ["app/core/constants/*"],
+      "@models/*": ["app/core/models/*"],
+      "@services/*": ["app/core/services/*"],
+      "@interceptors/*": ["app/core/interceptors/*"],
+      "@guards/*": ["app/core/guards/*"],
+      "@client-dashboard/*": ["app/modules/client-dashboard/*"],
+      "@employee-dashboard/*": ["app/modules/employee-dashboard/*"],
+      "@shared-components/*": ["app/shared/components/*"],
+      "@shared-directives/*": ["app/shared/directives/*"],
+      "@shared-packages/*": ["app/shared/packages/*"],
+      "@shared-pipes/*": ["app/shared/pipes"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false

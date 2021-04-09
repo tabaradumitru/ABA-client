@@ -27,3 +27,71 @@ body {
 .w-100 {
   width: 100%;
 }
+
+.p-card {
+  .p-card-body {
+    padding: 0;
+  }
+
+  .p-card-title {
+    //font-size: 1.2rem;
+    //color: @color-logo-text;
+    //padding: 1rem 1rem 0;
+  }
+
+  .p-card-content {
+    padding: 1rem;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active
+{
+  //-webkit-box-shadow: 0 0 0 30px white inset !important;
+  background: transparent !important;
+}
+
+.p-field-checkbox > label,
+.p-field-radiobutton > label {
+  line-height: 1.5;
+}
+
+.p-dialog {
+  .p-dialog-header {
+    padding: .5rem 1rem;
+  }
+
+  .p-dialog-content {
+    padding: .5rem 1rem 1rem;
+  }
+}
+
+.p-dialog-mask.p-component-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.bottom-bordered {
+  border-bottom: 1px solid $border;
+}
+
+.red-text {
+  color: $color-red;
+}
+
+.blue-text {
+  color: $color-button-info;
+}
+
+.orange-text {
+  color: $color-button-warning;
+}
+
+.green-text {
+  color: $color-button-success;
+}
+
+.white-text {
+  color: $color-white;
+}

@@ -18,6 +18,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DividerModule } from 'primeng/divider';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { BadgeModule } from 'primeng/badge';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 const exports = [
   ToastModule,
@@ -37,7 +40,10 @@ const exports = [
   DropdownModule,
   DividerModule,
   InputMaskModule,
-  MultiSelectModule
+  MultiSelectModule,
+  BadgeModule,
+  DynamicDialogModule,
+  TooltipModule
 ];
 
 @NgModule({

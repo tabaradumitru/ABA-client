@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientDashboardComponent } from './client-dashboard.component';
-import { AuthGuard } from '../../core/guards/auth.guard';
-import { RequestComponent } from './pages/request/request.component';
-import { NewRequestComponent } from './pages/new-request/new-request.component';
+import { ClientAuthGuard } from '@guards/client-auth.guard';
 import { AllRequestsComponent } from './pages/all-requests/all-requests.component';
 import { AllLicensesComponent } from './pages/all-licenses/all-licenses.component';
-import { LicenseComponent } from './pages/license/license.component';
+import { Role } from '@constants/enums';
 
 const routes: Routes = [
   {
     path: '',
     component: ClientDashboardComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [ ClientAuthGuard ],
+    data: { roles: [Role.User] },
     children: [
-      { path: 'requests', component: AllRequestsComponent},
-      { path: 'requests/new', component: NewRequestComponent },
-      { path: 'requests/:requestId', component: RequestComponent },
-      { path: 'licenses', component: AllLicensesComponent },
-      { path: 'licenses/:licenseId', component: LicenseComponent },
+      { path: 'cereri', component: AllRequestsComponent},
+      { path: 'permise', component: AllLicensesComponent },
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ]
   }

@@ -1,0 +1,167 @@
+<div class="authentication-container">
+  <div class="top-container">
+    <div class="upper-header mpass-bg-color">
+      <div class="fixed-container">
+        <div class="p-grid p-nogutter p-d-flex p-ai-center">
+          <div class="p-col-6 p-d-flex p-ai-center">
+            <img src="../../../../assets/images/gov.png" alt="Guvernul Republicii Moldova" height="18" width="16">
+            <a href="https://gov.md/ro">Guvernul Republicii Moldova</a>
+          </div>
+
+          <div class="p-col-6 p-d-flex p-jc-end p-ai-center">
+          <span class="language p-mr-4 p-d-flex p-ai-center">
+            <i class="pi pi-globe p-mr-1"></i>
+            RO
+          </span>
+
+            <i class="pi pi-sign-in p-mr-1"></i>
+            Autentificare
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lower-header">
+      <div class="fixed-container">
+        <div class="p-d-flex p-ai-center">
+          <img src="../../../../assets/images/mpass-logo.png" alt="MPass Logo" class="mpass-logo">
+
+          <span class="title-text">Serviciul de autentificare și control al accesului</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-container">
+      <div class="fixed-container">
+        <h1 class="p-text-center custom-header">Selectați modalitatea de autentificare</h1>
+        <div class="p-grid">
+          <div class="p-col-3 custom-grid-col">
+            <div class="option-container">
+              <span class="floating-info-icon"><i class="pi pi-info-circle"></i></span>
+              <span class="option-header">Semnătura mobilă</span>
+              <div class="img-container p-text-center">
+                <img src="../../../../assets/images/glyph-mobile-signature.png" alt="Semnatura mobila" width="100" height="100">
+              </div>
+
+              <div class="p-inputgroup custom-inputgroup">
+                <span class="p-inputgroup-addon">+373</span>
+                <input
+                  type="text"
+                  pInputText
+                  [ngModel]="mobileSignature"
+                  placeholder="XXX00000">
+              </div>
+
+              <button
+                type="button"
+                pButton
+                pRipple
+                label="Trimite"
+                class="custom-button"
+              ></button>
+            </div>
+          </div>
+          <div class="p-col-3 custom-grid-col">
+            <div class="option-container">
+              <span class="floating-info-icon"><i class="pi pi-info-circle"></i></span>
+              <span class="option-header">Semnătura electronică</span>
+              <div class="img-container p-text-center">
+                <img src="../../../../assets/images/glyph-stisc.png" alt="MoldSign" width="100" height="149">
+              </div>
+
+              <button
+                type="button"
+                pButton
+                pRipple
+                label="Serviciul Tehnologia Informației și Securitate Cibernetică"
+                class="custom-button"
+              ></button>
+            </div>
+          </div>
+          <div class="p-col-3 custom-grid-col">
+            <div class="option-container">
+              <span class="floating-info-icon"><i class="pi pi-info-circle"></i></span>
+              <span class="option-header">Buletin de identitate electronic</span>
+              <div class="img-container p-text-center">
+                <img src="../../../../assets/images/glyph-eid.png" alt="Buletin electronic" width="100" height="90">
+              </div>
+
+              <div class="img-container p-text-center">
+                <img src="../../../../assets/images/glyph-asp.png" alt="ASP" width="190" height="119">
+              </div>
+            </div>
+          </div>
+          <div class="p-col-3 custom-grid-col">
+            <div class="option-container">
+              <span class="floating-info-icon"><i class="pi pi-info-circle"></i></span>
+              <span class="option-header">Autentificare în 2 pași</span>
+              <div class="img-container p-text-center">
+                <img src="../../../../assets/images/TotpStep1.png" alt="Parolă" width="150" height="80">
+              </div>
+
+              <div class="p-inputgroup custom-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                <input
+                  type="text"
+                  pInputText
+                  [ngModel]="twoStepAuthModel.idnp"
+                  placeholder="IDNP">
+              </div>
+
+              <div class="p-inputgroup custom-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+                <input
+                  type="password"
+                  pInputText
+                  [ngModel]="twoStepAuthModel.password"
+                  placeholder="Parolă">
+              </div>
+
+              <button
+                type="button"
+                pButton
+                pRipple
+                label="Intră"
+                class="custom-button"
+                (click)="twoStepAuthLogin()"
+              ></button>
+
+              <span class="custom-small-link p-text-center">
+                <a href="https://mpass.gov.md/password/forgotten">Am uitat parola</a> | <a href="#">Nu am cod de verificare</a>
+              </span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer mpass-bg-color">
+    <div class="fixed-container">
+      <div class="p-grid">
+        <div class="p-col-5">
+          <h4>
+            <a href="#"><strong>CENTRUL DE ASISTENȚĂ</strong></a>
+          </h4>
+          <div class="white-text">Servicii Publice Electronice</div>
+          <h2>
+            <a href="#">022 <strong>820 000</strong></a>
+          </h2>
+        </div>
+
+        <div class="p-col-3">
+          <div><a href="#">Termeni și condiții</a></div>
+          <div><a href="#">Întrebări frecvente</a></div>
+          <div><a href="#">Procedura de înregistrare</a></div>
+          <div class="white-text p-text-italic">suport.mpass@egov.md</div>
+        </div>
+
+        <div class="p-col-4 p-text-right">
+          <div class="p-text-uppercase"><a href="#">Ⓒ 2021 Agenția de guvernare electronică</a></div>
+          <div class="white-text">Versiunea 3.2103.10.2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
