@@ -5,6 +5,7 @@ import { ClientAuthenticationComponent } from './client-authentication/client-au
 import { EmployeeAuthenticationComponent } from './employee-authentication/employee-authentication.component';
 import { FormsModule } from '@angular/forms';
 import { PrimeModule } from '@shared-packages/prime/prime.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -13,10 +14,11 @@ import { PrimeModule } from '@shared-packages/prime/prime.module';
     ClientAuthenticationComponent,
     EmployeeAuthenticationComponent
   ], imports: [
-    CommonModule,
-    PrimeModule,
-    FormsModule
-  ]
+		CommonModule,
+		PrimeModule,
+		FormsModule,
+		SharedModule
+	]
 })
 export class HomeModule {
 }

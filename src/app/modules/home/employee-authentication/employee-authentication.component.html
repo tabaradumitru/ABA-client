@@ -1,3 +1,5 @@
+<app-spinner *ngIf="configurationService.getLoading(loadingConstant)"></app-spinner>
+
 <div class="authentication-container">
   <div class="top-container">
     <div class="upper-header mpass-bg-color">
@@ -101,11 +103,13 @@
 
               <div class="p-inputgroup custom-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                <input
-                  type="text"
-                  pInputText
-                  [ngModel]="twoStepAuthModel.idnp"
-                  placeholder="IDNP">
+                <p-inputNumber
+                  mode="decimal"
+                  placeholder="IDNP"
+                  [maxlength]="13"
+                  [format]="false"
+                  [(ngModel)]="twoStepAuthModel.idnp"
+                ></p-inputNumber>
               </div>
 
               <div class="p-inputgroup custom-inputgroup">

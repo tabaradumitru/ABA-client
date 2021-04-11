@@ -33,7 +33,7 @@ export class EmployeeDashboardComponent implements OnInit {
     label: '',
     icon: 'pi pi-user',
     items: [{
-      label: 'Log Out',
+      label: 'Deconectează-mă',
       icon: 'pi pi-sign-out',
       command: () => this.logOut()
     }]

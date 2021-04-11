@@ -20,10 +20,10 @@
     <span class="info-text">{{request?.citizenIdnp}}</span>
   </div>
 
-  <div class="p-col-3 p-d-flex p-flex-column">
-    <label>Telefon: </label>
-    <span class="info-text">{{request?.phone}}</span>
-  </div>
+<!--  <div class="p-col-3 p-d-flex p-flex-column">-->
+<!--    <label>Telefon: </label>-->
+<!--    <span class="info-text">{{request?.phone}}</span>-->
+<!--  </div>-->
 
   <div class="p-col-12 p-mt-3">
     <h4 class="p-mt-0 bottom-bordered p-pb-2 p-mb-0">Date Generale</h4>
@@ -50,6 +50,11 @@
   </div>
 
   <div class="p-col-3 p-d-flex p-flex-column">
+    <label>Creat la: </label>
+    <span class="info-text">{{request?.createdAt | date: 'dd/MM/yyyy'}}</span>
+  </div>
+
+  <div class="p-col-3 p-d-flex p-flex-column">
     <label>Notițe adiționale:</label>
     <span>{{isNullOrWhiteSpace(request?.note) ? '-' : request?.note}}</span>
   </div>
@@ -61,7 +66,7 @@
     </div>
   </div>
 
-  <div class="p-field-checkbox p-col-6">
+  <div class="p-field-checkbox p-col-3">
     <p-checkbox
       [ngModel]="request?.notifyExpiry"
       [binary]="true"
@@ -85,28 +90,15 @@
       </div>
   </div>
 
-  <div class="p-col-12 p-mt-3">
+  <div class="p-col-12 p-mt-3" *ngIf="request?.mconnectValidations?.length">
     <h4 class="p-mt-0 bottom-bordered p-pb-2 p-mb-0">Validări mConnect:</h4>
   </div>
 
-  <div class="p-col-6 p-d-flex p-flex-column">
-    <label>Antecedente penale:</label>
-    <span>-</span>
-  </div>
-
-  <div class="p-col-6 p-d-flex p-flex-column">
-    <label>Antecedente în zona de frontieră:</label>
-    <span>-</span>
-  </div>
-
-  <div class="p-col-6 p-d-flex p-flex-column" *ngIf="request?.activityId === 3">
-    <label>Permis de vânătoare:</label>
-    <span>-</span>
-  </div>
-
-  <div class="p-col-6 p-d-flex p-flex-column" *ngIf="request?.activityId === 4">
-    <label>Permis de pescuit:</label>
-    <span>-</span>
+  <div class="p-col-6 p-d-flex p-flex-column" *ngFor="let validation of request?.mconnectValidations">
+    <label>{{validation.validationTypeName}}:</label>
+    <ul *ngFor="let value of validation.validationValues">
+      <li>{{value}}</li>
+    </ul>
   </div>
 
   <div class="p-col-12 p-d-flex p-flex-column">
@@ -123,10 +115,11 @@
     <button
       pButton
       pRipple
-      [ngClass]="request.statusId === RequestStatuses.Waiting ? 'p-mr-3' : ''"
+      [ngClass]="request?.statusId === RequestStatuses.Waiting ? 'p-mr-3' : ''"
       icon="pi pi-check"
       label="Aprobă"
-      *ngIf="request.statusId === RequestStatuses.Waiting"
+      (click)="onApproveRequest()"
+      *ngIf="request?.statusId === RequestStatuses.Waiting"
     ></button>
 
     <button
@@ -135,7 +128,7 @@
       class="p-button-danger p-button-outlined"
       icon="pi pi-times"
       label="Respinge"
-      *ngIf="request.statusId === RequestStatuses.Waiting"
+      *ngIf="request?.statusId === RequestStatuses.Waiting"
     ></button>
   </div>
 </div>

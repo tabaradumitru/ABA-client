@@ -21,7 +21,7 @@
         [lazy]="true"
         [loading]="configurationService.getLoading(loadingConstant)"
         [lazyLoadOnInit]="false"
-        (onLazyLoad)="loadRequests($event)"
+        (onLazyLoad)="onLazyLoad($event)"
         (onRowSelect)="onRowSelect($event.data)"
       >
         <ng-template pTemplate="header">
@@ -44,10 +44,10 @@
               <p-sortIcon field="activity-name"></p-sortIcon>
             </th>
             <th>Localitate</th>
-            <th pSortableColumn="phone">
-              Telefon
-              <p-sortIcon field="phone"></p-sortIcon>
-            </th>
+<!--            <th pSortableColumn="phone">-->
+<!--              Telefon-->
+<!--              <p-sortIcon field="phone"></p-sortIcon>-->
+<!--            </th>-->
             <th pSortableColumn="start-date">
               Dată Început
               <p-sortIcon field="start-date"></p-sortIcon>
@@ -80,7 +80,7 @@
                 </div>
               </div>
             </td>
-            <td>{{row.phone}}</td>
+<!--            <td>{{row.phone}}</td>-->
             <td>{{row.startDate | date: 'dd/MM/yyyy'}}</td>
             <td>{{row.endDate | date: 'dd/MM/yyyy'}}</td>
             <td style="min-width: 135px">

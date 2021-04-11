@@ -1,0 +1,87 @@
+<app-spinner *ngIf="configurationService.getLoading(loadingConstant)"></app-spinner>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <h4 class="p-mt-0 bottom-bordered p-pb-2 p-mb-0">Date Personale</h4>
+  </div>
+
+  <div class="p-col-4 p-d-flex p-flex-column">
+    <label>Prenume: </label>
+    <span class="info-text">{{license?.firstName}}</span>
+  </div>
+
+  <div class="p-col-4 p-d-flex p-flex-column">
+    <label>Nume: </label>
+    <span class="info-text">{{license?.lastName}}</span>
+  </div>
+
+  <div class="p-col-4 p-d-flex p-flex-column">
+    <label>IDNP: </label>
+    <span class="info-text">{{license?.citizenIdnp}}</span>
+  </div>
+
+  <div class="p-col-12 p-mt-3">
+    <h4 class="p-mt-0 bottom-bordered p-pb-2 p-mb-0">Date Generale</h4>
+  </div>
+
+  <div class="p-col-3 p-d-flex p-flex-column">
+    <label>Status:</label>
+    <span class="info-text" [ngClass]="getStatusSeverityClass(license?.statusId)">{{getStatusNameById(license?.statusId)}}</span>
+  </div>
+
+  <div class="p-col-3 p-d-flex p-flex-column">
+    <label>Activitate: </label>
+    <span class="info-text">{{getActivityNameById(license?.activityId)}}</span>
+  </div>
+
+  <div class="p-col-3 p-d-flex p-flex-column">
+    <label>De la: </label>
+    <span class="info-text">{{license?.startDate | date: 'dd/MM/yyyy'}}</span>
+  </div>
+
+  <div class="p-col-3 p-d-flex p-flex-column">
+    <label>Până la: </label>
+    <span class="info-text">{{license?.endDate | date: 'dd/MM/yyyy'}}</span>
+  </div>
+
+  <div class="p-col-3 p-d-flex p-flex-column">
+    <label>Creat la: </label>
+    <span class="info-text">{{license?.createdAt | date: 'dd/MM/yyyy'}}</span>
+  </div>
+
+  <div class="p-col-3 p-d-flex p-flex-column">
+    <label>Notițe adiționale:</label>
+    <span>{{isNullOrWhiteSpace(license?.note) ? '-' : license?.note}}</span>
+  </div>
+
+  <div class="p-col-3 p-d-flex p-flex-column">
+    <label>Metode de primire a permisului:</label>
+    <div *ngFor="let method of license?.receivingMethods">
+      <strong>{{method.receivingMethodName}} : </strong><span>{{method.receivingMethodValue}}</span>
+    </div>
+  </div>
+
+  <div class="p-field-checkbox p-col-3">
+    <p-checkbox
+      [ngModel]="license?.notifyExpiry"
+      [binary]="true"
+      disabled
+      id="notify-expiry"
+    ></p-checkbox>
+    <label for="notify-expiry">Notificare despre expirarea permisului</label>
+  </div>
+
+  <div class="p-col-12 p-mt-3">
+    <h4 class="p-mt-0 bottom-bordered p-pb-2 p-mb-0">Localități:</h4>
+  </div>
+
+  <div class="p-col-12 p-d-flex p-flex-column">
+    <div *ngFor="let area of getAreas(license)">
+      <span class="blue-text">Zona:</span> {{area.areaName}}
+      <div class="p-ml-4" *ngFor="let district of area.districts">
+        <span class="green-text">Oraș: </span> {{district.districtName}}
+        <div class="p-ml-4 localities-list"><span class="orange-text">Localități:</span> {{getLocalitiesAsString(district.localities)}}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,3 +14,8 @@ export enum RequestStatuses {
   Canceled,
   Expired
 }
+
+export enum ReceivingMethods {
+  SMS = 1,
+  Email = 2
+}

@@ -24,13 +24,16 @@
       .logo-title {
         display: inline-block;
         max-width: 285px;
+        font-family: 'Roboto Condensed', sans-serif;
         color: $color-white;
+        line-height: 1.625rem;
         font-weight: bold;
         font-size: 1.5rem;
       }
     }
 
     .p-menubar.top-menu {
+      height: 86px;
       ul {
         border-left: 2px solid rgba(255, 255, 255, 0.6);
         padding-left: 1rem;

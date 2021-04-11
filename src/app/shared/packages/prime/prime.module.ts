@@ -21,6 +21,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { BadgeModule } from 'primeng/badge';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 const exports = [
   ToastModule,
@@ -43,7 +44,8 @@ const exports = [
   MultiSelectModule,
   BadgeModule,
   DynamicDialogModule,
-  TooltipModule
+  TooltipModule,
+  InputNumberModule
 ];
 
 @NgModule({

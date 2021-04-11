@@ -6,7 +6,7 @@
       <h4 class="p-mt-0 bottom-bordered p-pb-2">Date Personale</h4>
     </div>
 
-    <div class="p-field p-col-6">
+    <div class="p-field p-col-4">
       <label for="first-name">Prenume</label>
       <input
         disabled
@@ -19,7 +19,7 @@
       >
     </div>
 
-    <div class="p-field p-col-6">
+    <div class="p-field p-col-4">
       <label for="last-name">Nume</label>
       <input
         disabled
@@ -32,7 +32,7 @@
       >
     </div>
 
-    <div class="p-field p-col-6">
+    <div class="p-field p-col-4">
       <label for="idnp">IDNP</label>
       <input
         disabled
@@ -45,16 +45,16 @@
       >
     </div>
 
-    <div class="p-field p-col-6">
-      <label for="phone">Telefon <span class="red-text">*</span></label>
-      <p-inputMask
-        id="phone"
-        mask="(99) 99-99-99"
-        placeholder="(__) __-__-__"
-        formControlName="phone"
-        [unmask]="true"
-      ></p-inputMask>
-    </div>
+<!--    <div class="p-field p-col-6">-->
+<!--      <label for="phone">Telefon <span class="red-text">*</span></label>-->
+<!--      <p-inputMask-->
+<!--        id="phone"-->
+<!--        mask="(99) 99-99-99"-->
+<!--        placeholder="(__) __-__-__"-->
+<!--        formControlName="phone"-->
+<!--        [unmask]="true"-->
+<!--      ></p-inputMask>-->
+<!--    </div>-->
 
     <div class="p-col-12">
       <h4 class="bottom-bordered p-pb-2">Date Generale</h4>
@@ -133,28 +133,53 @@
       ></p-multiSelect>
     </div>
 
-    <div class="p-field p-col-6">
-      <label for="receiving-method">Metoda de primire a permisului <span class="red-text">*</span></label>
-      <p-multiSelect
-        id="receiving-method"
-        defaultLabel="Selectează metoda de primire"
-        [options]="receivingMethods"
-        formControlName="receivingMethod"
-      ></p-multiSelect>
+<!--    <div class="p-field p-col-6">-->
+<!--      <label for="receiving-method">Metoda de primire a permisului <span class="red-text">*</span></label>-->
+<!--      <p-multiSelect-->
+<!--        id="receiving-method"-->
+<!--        defaultLabel="Selectează metoda de primire"-->
+<!--        [options]="receivingMethods"-->
+<!--        formControlName="selectedReceivingMethods"-->
+<!--      ></p-multiSelect>-->
+<!--    </div>-->
+
+<!--    <div class="p-field p-col-6">-->
+<!--      <label for="email">Poșta electronică <span *ngIf="request?.receivingMethods?.includes(1)" class="red-text">*</span></label>-->
+<!--      <input-->
+<!--        type="email"-->
+<!--        pInputText-->
+<!--        id="email"-->
+<!--        placeholder="Introdu adresa poștei electronice"-->
+<!--        formControlName="email"-->
+<!--      >-->
+<!--    </div>-->
+
+    <div class="p-col-12">
+      <h4 class="bottom-bordered p-pb-2">Metode de primire a permisului</h4>
     </div>
 
-    <div class="p-field p-col-6">
-      <label for="email">Poșta electronică <span *ngIf="request?.receivingMethod?.includes(1)" class="red-text">*</span></label>
+    <div class="p-col-6 p-field" *ngFor="let receivingMethod of receivingMethods">
+      <label>{{receivingMethod.receivingMethodName}} <span *ngIf="receivingMethod.isRequired" class="red-text">*</span></label>
+      <p-inputMask
+        *ngIf="receivingMethod.receivingMethodId === ReceivingMethods.SMS"
+        id="phone"
+        mask="(99) 99-99-99"
+        placeholder="(__) __-__-__"
+        formControlName="phone"
+        [unmask]="true"
+      ></p-inputMask>
+
       <input
-        type="email"
-        pInputText
-        id="email"
-        placeholder="Introdu adresa poștei electronice"
+        *ngIf="receivingMethod.receivingMethodId !== ReceivingMethods.SMS"
         formControlName="email"
+        type="text"
+        pInputText
       >
     </div>
+  </div>
 
-
+  <div class="p-col-12">
+    <h4 class="bottom-bordered p-pb-2">Date adiționale</h4>
   </div>
 
   <div class="p-fluid p-formgrip p-grid">
@@ -164,7 +189,7 @@
         pInputTextarea
         id="notes"
         autoResize="autoResize"
-        formControlName="notes"
+        formControlName="note"
       ></textarea>
     </div>
 
@@ -172,6 +197,7 @@
       <p-checkbox
         inputId="notify-expiry"
         formControlName="notifyExpiry"
+        (onChange)="onChangeNotifyExpiry($event.checked)"
         [binary]="true"
       ></p-checkbox>
       <label for="notify-expiry">Doresc să fiu notificat despre expirarea permisului</label>
@@ -219,7 +245,7 @@
         pRipple
         type="submit"
         [disabled]="!requestForm.valid"
-        icon="pi pi-save"
+        icon="pi pi-send"
         label="Trimite"
       ></button>
     </div>

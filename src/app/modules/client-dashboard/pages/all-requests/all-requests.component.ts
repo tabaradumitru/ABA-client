@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-import { Request } from '@models/request/request';
+import { CustomRequest } from '@models/request/customRequest';
 import { RequestService } from '@services/data/request.service';
 import { RequestStatus } from '@models/request/request-status';
 import { NotificationService } from '@services/notification.service';
@@ -12,10 +12,12 @@ import { LocalityService } from '@services/data/locality.service';
 import { Area } from '@models/locality/area';
 import { District } from '@models/locality/district';
 import { Locality } from '@models/locality/locality';
-import { GLOBAL_SPINNER } from '@constants/loading-constants';
+import { ALL_USER_REQUESTS } from '@constants/loading-constants';
 import { ConfigurationService } from '@services/configuration.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NewRequestDialogComponent } from '@client-dashboard/pages/new-request-dialog/new-request-dialog.component';
+import { RequestFilter } from '@models/request/request-filter';
+import { PaginatedResponse } from '@models/response/paginated-response';
 
 @Component({
   selector: 'app-all-requests',
@@ -25,7 +27,7 @@ import { NewRequestDialogComponent } from '@client-dashboard/pages/new-request-d
 })
 export class AllRequestsComponent implements OnInit {
 
-  loadingConstant = GLOBAL_SPINNER;
+  loadingConstant = ALL_USER_REQUESTS;
   requestStatuses: RequestStatus[] = [];
   activities: Activity[] = [];
   localities: Area[] = [];
@@ -43,33 +45,41 @@ export class AllRequestsComponent implements OnInit {
     icon: 'pi pi-times'
   }];
 
-  requests: Request[] = [];
+  requests: CustomRequest[] = [];
+  filter = {
+    page: 1,
+    pageSize: 10
+  } as RequestFilter;
 
-  idnp = '2008024014423';
+  first: number;
+
+  dataResponse: PaginatedResponse<CustomRequest[]> = {} as PaginatedResponse<CustomRequest[]>;
 
   constructor(public router: Router,
               private requestService: RequestService,
               private activityService: ActivityService,
               private localityService: LocalityService,
               private notificationService: NotificationService,
-              private configurationService: ConfigurationService,
+              public configurationService: ConfigurationService,
               private dialogService: DialogService) { }
 
   ngOnInit(): void {
     this.configurationService.setLoading(true, this.loadingConstant);
     const $statuses = this.requestService.getStatuses();
-    const $requests = this.requestService.getRequestForUser(this.idnp);
+    const $requests = this.requestService.getUserRequests(this.filter);
     const $activities = this.activityService.getActivities();
     const $localities = this.localityService.getAllLocalities();
 
-    forkJoin([$statuses, $requests, $activities, $localities]).subscribe(response => {
+    forkJoin([$statuses, $activities, $localities, $requests]).subscribe(response => {
       this.requestStatuses = response[0];
-      this.requests = response[1];
-      this.activities = response[2];
-      this.localities = response[3];
+      this.activities = response[1];
+      this.localities = response[2];
+      this.requests = response[3].content;
+      this.dataResponse.pageSize = response[3].pageSize;
+      this.dataResponse.totalCount = response[3].totalCount;
+      this.first = (response[3].currentPage - 1) * response[3].pageSize;
       setTimeout(() => this.configurationService.setLoading(false, this.loadingConstant), 500);
     }, error => {
-      console.log(error);
       this.notificationService.notifyHttpErrors(error);
       this.configurationService.setLoading(false, this.loadingConstant);
     });
@@ -92,7 +102,7 @@ export class AllRequestsComponent implements OnInit {
     return this.requestStatuses.find(s => s.statusId === statusId)?.statusName || '';
   }
 
-  getAreas(request: Request): Area[] {
+  getAreas(request: CustomRequest): Area[] {
     return this.localities
       .filter(l => request.areas.includes(l.areaId))
       .map(l => ({
@@ -121,7 +131,7 @@ export class AllRequestsComponent implements OnInit {
     this.dialogService.open(NewRequestDialogComponent, {
       header: 'Cerere Nouă',
       width: '70vw',
-    }).onClose.subscribe((response: Request) => {
+    }).onClose.subscribe((response: CustomRequest) => {
       if (response) {
         const index = this.requests.findIndex(r => r.requestId === response.requestId);
 
@@ -131,6 +141,29 @@ export class AllRequestsComponent implements OnInit {
           this.requests[index] = response;
         }
       }
+    });
+  }
+
+  onLazyLoad(event: LazyLoadEvent): void {
+    this.filter.page = event.first / event.rows + 1;
+    this.filter.pageSize = event.rows;
+    this.filter.sortOrder = event.sortOrder;
+    this.filter.sortField = event.sortField;
+
+    this.loadRequests();
+  }
+
+  loadRequests(): void {
+    this.configurationService.setLoading(true, this.loadingConstant);
+    this.requestService.getUserRequests(this.filter).subscribe(response => {
+      this.requests = response.content;
+      this.dataResponse.pageSize = response.pageSize;
+      this.dataResponse.totalCount = response.totalCount;
+      this.first = (response.currentPage - 1) * response.pageSize;
+      this.configurationService.setLoading(false, this.loadingConstant);
+    }, error => {
+      this.notificationService.notifyHttpErrors(error);
+      this.configurationService.setLoading(false, this.loadingConstant);
     });
   }
 }

@@ -5,3 +5,62 @@
     </div>
   </div>
 </p-card>
+
+<p-card>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-table
+        [value]="licenses"
+        [tableStyle]="{'table-layout': 'auto'}"
+        selectionMode="single"
+        [paginator]="licenses?.length > 0"
+        [rows]="dataResponse.pageSize"
+        [totalRecords]="dataResponse.totalCount"
+        [rowsPerPageOptions]="[10,15,20]"
+        [(first)]="first"
+        [lazy]="true"
+        [loading]="configurationService.getLoading(loadingConstant)"
+        [lazyLoadOnInit]="false"
+        (onLazyLoad)="onLazyLoad($event)"
+        (onRowSelect)="onRowSelect($event.data)"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+            <th>Număr de identificare</th>
+            <th>Activitate</th>
+            <th>Localitate</th>
+            <th>Emis în data de</th>
+            <th>Dată Început</th>
+            <th>Dată Sfârșit</th>
+            <th>Status</th>
+<!--            <th>Acțiune</th>-->
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="row">
+            <td>{{rowIndex + 1}}</td>
+            <td>-</td>
+            <td>{{getActivityNameById(row.activityId)}}</td>
+            <td>
+              <div *ngFor="let area of getAreas(row)">
+                <span class="blue-text">Zona:</span> {{area.areaName}}
+                <div class="p-ml-4" *ngFor="let district of area.districts">
+                  <span class="green-text">Oraș: </span> {{district.districtName}}
+                  <div class="p-ml-4 localities-list"><span class="orange-text">Localități:</span> {{getLocalitiesAsString(district.localities)}}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{row.createdAt | date: 'dd/MM/yyyy'}}</td>
+            <td>{{row.startDate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{row.endDate | date: 'dd/MM/yyyy'}}</td>
+            <td style="min-width: 135px">
+              <p-badge [value]="getStatusNameById(row.statusId)" [severity]="getStatusSeverityString(row.statusId)"></p-badge>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</p-card>

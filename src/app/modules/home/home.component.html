@@ -1,3 +1,26 @@
+<app-spinner *ngIf="configurationService.getLoading(loadingConstant)"></app-spinner>
+
+<div class="home-top-menu">
+  <div class="centered-container p-grid">
+    <div class="p-col-12">
+      <p-menubar styleClass="top-menubar" [model]="topMenu">
+        <ng-template pTemplate="start">
+          <a routerLink="" class="logo-anchor">
+            <img class="logo-image" src="assets/images/logo.png" alt="Poliția de frontieră a Republicii Moldova" (load)="onImageLoad()">
+            <span class="logo-text">
+                Poliția de frontieră a Republicii Moldova
+              </span>
+          </a>
+        </ng-template>
+
+        <ng-template pTemplate="end">
+          <p-menubar styleClass="right-menubar" [model]="userIsLoggedIn ? loggedInUserMenu : rightMenu"></p-menubar>
+        </ng-template>
+      </p-menubar>
+    </div>
+  </div>
+</div>
+
 <div class="home-container">
-  home component
+
 </div>

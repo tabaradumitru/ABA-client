@@ -22,14 +22,22 @@
       <p-table
         [value]="requests"
         [tableStyle]="{'table-layout': 'auto'}"
-        selectionMode="single"
+        [paginator]="requests?.length > 0"
+        [rows]="dataResponse.pageSize"
+        [totalRecords]="dataResponse.totalCount"
+        [rowsPerPageOptions]="[10,15,20]"
+        [(first)]="first"
+        [lazy]="true"
+        [loading]="configurationService.getLoading(loadingConstant)"
+        [lazyLoadOnInit]="false"
+        (onLazyLoad)="onLazyLoad($event)"
       >
         <ng-template pTemplate="header">
           <tr>
             <th>#</th>
             <th>Activitate</th>
             <th>Localitate</th>
-            <th>Telefon</th>
+            <th>Creat la</th>
             <th>Dată Început</th>
             <th>Dată Sfârșit</th>
             <th>Status</th>
@@ -38,7 +46,7 @@
         </ng-template>
 
         <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
-          <tr [pSelectableRow]="row">
+          <tr>
             <td>{{rowIndex + 1}}</td>
             <td>{{getActivityNameById(row.activityId)}}</td>
             <td>
@@ -50,7 +58,7 @@
                 </div>
               </div>
             </td>
-            <td>{{row.phone}}</td>
+            <td>{{row.createdAt | date: 'dd/MM/yyyy'}}</td>
             <td>{{row.startDate | date: 'dd/MM/yyyy'}}</td>
             <td>{{row.endDate | date: 'dd/MM/yyyy'}}</td>
             <td>

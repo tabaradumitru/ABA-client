@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ConfigurationService } from '@services/configuration.service';
 import { NotificationService } from '@services/notification.service';
 import { first } from 'rxjs/operators';
+import { EMPLOYEE_AUTHENTICATION } from '@constants/loading-constants';
 
 @Component({
   selector: 'app-employee-authentication',
@@ -14,6 +15,7 @@ import { first } from 'rxjs/operators';
 })
 export class EmployeeAuthenticationComponent implements OnInit {
 
+  loadingConstant = EMPLOYEE_AUTHENTICATION;
   mobileSignature: string;
 
   twoStepAuthModel: TwoStepAuthModel = {} as TwoStepAuthModel;
@@ -21,19 +23,27 @@ export class EmployeeAuthenticationComponent implements OnInit {
   constructor(private authService: AuthenticationService,
               private localStorageService: LocalStorageService,
               private router: Router,
-              private configurationService: ConfigurationService,
-              private notificationService: NotificationService) { }
+              public configurationService: ConfigurationService,
+              private notificationService: NotificationService) {
+    this.configurationService.setLoading(true, this.loadingConstant);
+  }
 
   ngOnInit(): void {
+    setTimeout(() => this.configurationService.setLoading(false, this.loadingConstant), 1000);
   }
 
   twoStepAuthLogin(): void {
+    this.configurationService.setLoading(true, this.loadingConstant);
+    this.twoStepAuthModel.idnp = this.twoStepAuthModel.idnp.toString();
     this.authService.twoStepAuthEmployeeLogin(this.twoStepAuthModel)
     .pipe(first())
     .subscribe(() => {
+      this.notificationService.callSuccess('Succes', 'Ați fost autentificat cu succes!');
+      this.configurationService.setLoading(false, this.loadingConstant);
       this.router.navigate(['admin']);
     }, error => {
       this.notificationService.callError('Eroare', error.toString());
+      this.configurationService.setLoading(false, this.loadingConstant);
     });
   }
 }

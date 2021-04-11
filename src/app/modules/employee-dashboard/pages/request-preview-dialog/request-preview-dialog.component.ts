@@ -4,7 +4,7 @@ import { RequestService } from '@services/data/request.service';
 import { ConfigurationService } from '@services/configuration.service';
 import { NotificationService } from '@services/notification.service';
 import { REQUEST_PREVIEW } from '@constants/loading-constants';
-import { Request } from '@models/request/request';
+import { CustomRequest } from '@models/request/customRequest';
 import { Area } from '@models/locality/area';
 import { Locality } from '@models/locality/locality';
 import { District } from '@models/locality/district';
@@ -13,8 +13,9 @@ import { LocalityService } from '@services/data/locality.service';
 import { forkJoin } from 'rxjs';
 import { Activity } from '@models/activity/activity';
 import { RequestStatus } from '@models/request/request-status';
-import { SelectItem } from 'primeng/api';
 import { RequestStatuses } from '@constants/enums';
+import { RequestToValidate } from '@models/request/request-to-validate';
+import { LicenseService } from '@services/data/license.service';
 
 @Component({
   selector: 'app-request-preview',
@@ -24,33 +25,29 @@ import { RequestStatuses } from '@constants/enums';
 export class RequestPreviewDialogComponent implements OnInit {
 
   loadingConstant = REQUEST_PREVIEW;
-  request: Request;
+  request: RequestToValidate;
 
   requestStatuses: RequestStatus[] = [];
   activities: Activity[] = [];
   localities: Area[] = [];
-  receivingMethods: SelectItem[] = [
-    { label: 'Poșta electronică', value: 1 },
-    { label: 'SMS', value: 2 }
-  ];
-
-  private requestId: number;
 
   constructor(private ref: DynamicDialogRef,
               private config: DynamicDialogConfig,
               private requestService: RequestService,
+              private licenseService: LicenseService,
               private activityService: ActivityService,
               private localityService: LocalityService,
               public configurationService: ConfigurationService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService) {
+    this.configurationService.setLoading(true, this.loadingConstant);
+  }
 
   ngOnInit(): void {
-    this.requestId = this.config.data.requestId;
-    this.configurationService.setLoading(true, this.loadingConstant);
+    const requestId = this.config.data.requestId;
 
     const $activities = this.activityService.getActivities();
     const $localities = this.localityService.getAllLocalities();
-    const $request = this.requestService.getRequestPreview(this.requestId);
+    const $request = this.requestService.getRequestPreview(requestId);
     const $statuses = this.requestService.getStatuses();
 
     forkJoin([$activities, $localities, $request, $statuses]).subscribe(response => {
@@ -58,7 +55,6 @@ export class RequestPreviewDialogComponent implements OnInit {
       this.localities = response[1];
       this.request = response[2];
       this.requestStatuses = response[3];
-      console.log(this.request);
       this.configurationService.setLoading(false, this.loadingConstant);
     }, error => {
       this.notificationService.notifyHttpErrors(error);
@@ -67,7 +63,7 @@ export class RequestPreviewDialogComponent implements OnInit {
     });
   }
 
-  getAreas(request: Request): Area[] {
+  getAreas(request: CustomRequest): Area[] {
     return this.localities
     .filter(l => request.areas.includes(l.areaId))
     .map(l => ({
@@ -113,7 +109,20 @@ export class RequestPreviewDialogComponent implements OnInit {
     return !str || !str.trim();
   }
 
-  get RequestStatuses(): any {
+  get RequestStatuses(): typeof RequestStatuses {
     return RequestStatuses;
+  }
+
+  onApproveRequest(): void {
+    this.configurationService.setLoading(true, this.loadingConstant);
+
+    this.licenseService.createLicense(this.request.requestId).subscribe(response => {
+      this.ref.close(true);
+      this.notificationService.callSuccess('Succes', 'Permisul a fost creat cu succes!');
+      this.configurationService.setLoading(false, this.loadingConstant);
+    }, error => {
+      this.notificationService.notifyHttpErrors(error);
+      this.configurationService.setLoading(false, this.loadingConstant);
+    });
   }
 }
