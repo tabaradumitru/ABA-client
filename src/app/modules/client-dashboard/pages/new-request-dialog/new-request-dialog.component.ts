@@ -103,12 +103,11 @@ export class NewRequestDialogComponent implements OnInit {
 
   addRequest(): void {
     this.configurationService.setLoading(true, this.loadingConstant);
-    // const dataToSend = { ...this.requestForm.value } as CustomRequest;
-    // console.log(dataToSend);
-    this.requestService.addRequest({ ...this.requestForm.value } as RequestToAdd).subscribe(() => {
+    const requestToAdd = { ...this.requestForm.value } as RequestToAdd;
+    this.requestService.addRequest(requestToAdd).subscribe(() => {
       this.notificationService.callSuccess('Succes', 'Cererea a fost expediată cu succes!');
       this.configurationService.setLoading(false, this.loadingConstant);
-      this.ref.close();
+      this.ref.close(requestToAdd);
     }, error => {
       this.notificationService.notifyHttpErrors(error);
       this.configurationService.setLoading(false, this.loadingConstant);
@@ -144,12 +143,16 @@ export class NewRequestDialogComponent implements OnInit {
     });
 
     this.requestForm.get('startDateValue').valueChanges.subscribe(value => {
+      const local = value;
+      local.setHours(local.getHours() + 3);
       this.requestForm.get('startDate').setValue(value ? value.toISOString() : null);
       const endDate = this.requestForm.get('endDateValue').value;
       if (endDate && value > endDate) this.requestForm.get('endDateValue').setValue(null);
     });
 
     this.requestForm.get('endDateValue').valueChanges.subscribe(value => {
+      const local = value;
+      local.setHours(local.getHours() + 3);
       this.requestForm.get('endDate').setValue(value ? value.toISOString() : null);
     });
   }
@@ -160,6 +163,10 @@ export class NewRequestDialogComponent implements OnInit {
 
   onChangeNotifyExpiry(checked: boolean): void {
     this.requestForm.get('notifyExpiry').setValue(checked ? 1 : 0);
+  }
+
+  getDateNow(): Date {
+    return new Date();
   }
 
   private mapLocalities(): void {

@@ -2,6 +2,8 @@ import { ReceivingMethod } from '@models/request/receiving-method';
 
 export interface CustomRequest {
   requestId: number;
+  licenseId: number;
+  licenseNumber: string;
   citizenIdnp: string;
   firstName: string;
   lastName: string;

@@ -18,6 +18,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { NewRequestDialogComponent } from '@client-dashboard/pages/new-request-dialog/new-request-dialog.component';
 import { RequestFilter } from '@models/request/request-filter';
 import { PaginatedResponse } from '@models/response/paginated-response';
+import { LicensePreviewDialogComponent } from '@client-dashboard/pages/license-preview-dialog/license-preview-dialog.component';
 
 @Component({
   selector: 'app-all-requests',
@@ -133,22 +134,43 @@ export class AllRequestsComponent implements OnInit {
       width: '70vw',
     }).onClose.subscribe((response: CustomRequest) => {
       if (response) {
-        const index = this.requests.findIndex(r => r.requestId === response.requestId);
-
-        if (index !== -1) {
-          this.requests.unshift(response);
-        } else {
-          this.requests[index] = response;
-        }
+        this.configurationService.setLoading(true, this.loadingConstant);
+        location.reload();
+        this.configurationService.setLoading(false, this.loadingConstant);
       }
     });
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
+    this.filter = {} as RequestFilter;
     this.filter.page = event.first / event.rows + 1;
     this.filter.pageSize = event.rows;
     this.filter.sortOrder = event.sortOrder;
     this.filter.sortField = event.sortField;
+
+    for (const filtersKey in event.filters) {
+      if (event.filters[filtersKey].value) {
+        this.filter[filtersKey] = event.filters[filtersKey].value;
+
+        if (this.filter.createdAt) {
+          const local = new Date(this.filter.createdAt);
+          local.setHours(local.getHours() + 3);
+          this.filter.createdAt = local.toISOString();
+        }
+
+        if (this.filter.startDate) {
+          const local = new Date(this.filter.startDate);
+          local.setHours(local.getHours() + 3);
+          this.filter.startDate = local.toISOString();
+        }
+
+        if (this.filter.endDate) {
+          const local = new Date(this.filter.endDate);
+          local.setHours(local.getHours() + 3);
+          this.filter.endDate = local.toISOString();
+        }
+      }
+    }
 
     this.loadRequests();
   }
@@ -164,6 +186,15 @@ export class AllRequestsComponent implements OnInit {
     }, error => {
       this.notificationService.notifyHttpErrors(error);
       this.configurationService.setLoading(false, this.loadingConstant);
+    });
+  }
+
+  openLicenseDialog(licenseId: number, licenseNumber: string): void {
+    this.dialogService.open(LicensePreviewDialogComponent, {
+      data: { licenseId },
+      header: `Vizualizare permis | ${licenseNumber}`,
+      dismissableMask: true,
+      width: '70vw'
     });
   }
 }

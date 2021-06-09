@@ -52,9 +52,9 @@ export class ClientDashboardComponent implements OnInit {
     routerLink: 'legislatie',
     routerLinkActiveOptions: { exact: true }
   }, {
-    label: 'FAQ',
+    label: 'Întrebări frecvente',
     icon: 'pi pi-question',
-    routerLink: 'faq',
+    routerLink: 'intrebari-frecvente',
     routerLinkActiveOptions: { exact: true }
   }];
 

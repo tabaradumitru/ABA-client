@@ -49,14 +49,17 @@ export class EmployeeDashboardComponent implements OnInit {
     routerLink: 'permise',
     routerLinkActiveOptions: { exact: true },
   }, {
+    label: 'Colaboratori',
+    icon: 'pi pi-users'
+  }, {
     label: 'Legislatie',
     icon: 'pi pi-shield',
     routerLink: 'legislatie',
     routerLinkActiveOptions: { exact: true },
   }, {
-    label: 'FAQ',
+    label: 'Întrebări frecvente',
     icon: 'pi pi-question',
-    routerLink: 'faq',
+    routerLink: 'intrebari-frecvente',
     routerLinkActiveOptions: { exact: true }
   }];
 

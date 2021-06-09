@@ -11,18 +11,20 @@
     <div class="p-col-12">
       <p-table
         [value]="licenses"
+        dataKey="licenseNumber"
         [tableStyle]="{'table-layout': 'auto'}"
         selectionMode="single"
         [paginator]="licenses?.length > 0"
         [rows]="dataResponse.pageSize"
         [totalRecords]="dataResponse.totalCount"
-        [rowsPerPageOptions]="[10,15,20]"
+        [rowsPerPageOptions]="[2,10,20]"
         [(first)]="first"
         [lazy]="true"
         [loading]="configurationService.getLoading(loadingConstant)"
         [lazyLoadOnInit]="false"
         (onLazyLoad)="onLazyLoad($event)"
         (onRowSelect)="onRowSelect($event.data)"
+        [globalFilterFields]="['licenseNumber', 'activityId', 'localityName', 'createdAt', 'startDate', 'endDate', 'statusId']"
       >
         <ng-template pTemplate="header">
           <tr>
@@ -30,18 +32,119 @@
             <th>Număr de identificare</th>
             <th>Activitate</th>
             <th>Localitate</th>
-            <th>Emis în data de</th>
+            <th>Data emiterii</th>
             <th>Dată Început</th>
             <th>Dată Sfârșit</th>
             <th>Status</th>
 <!--            <th>Acțiune</th>-->
+          </tr>
+
+          <tr>
+            <th>-</th>
+            <th>
+              <p-columnFilter
+                type="text"
+                field="licenseNumber"
+                matchMode="contains"
+                [showMenu]="false"
+              ></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="activityId" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value="areaId" let-filter="filterCallback">
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="activities"
+                    (onChange)="filter($event.value)"
+                    placeholder="Toate"
+                    optionLabel="activityName"
+                    optionValue="activityId"
+                    [showClear]="true">
+                    <ng-template let-option pTemplate="item">
+                      <span [class]="'customer-badge status-' + option.activityId">{{option.activityName}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter
+                type="text"
+                field="localityName"
+                matchMode="contains"
+                [showMenu]="false"
+              ></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="createdAt" matchMode="equals" [showMenu]="false" [showClearButton]="true">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-calendar
+                    dateFormat="dd/mm/yy"
+                    [ngModel]="value"
+                    appendTo="body"
+                    (onClearClick)="filter('')"
+                    [showButtonBar]="true"
+                    [showIcon]="true"
+                    (onSelect)="filter($event)"
+                  ></p-calendar>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="startDate" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-calendar
+                    dateFormat="dd/mm/yy"
+                    [ngModel]="value"
+                    appendTo="body"
+                    (onClearClick)="filter('')"
+                    [showButtonBar]="true"
+                    [showIcon]="true"
+                    (onSelect)="filter($event)"
+                  ></p-calendar>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="endDate" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-calendar
+                    dateFormat="dd/mm/yy"
+                    [ngModel]="value"
+                    appendTo="body"
+                    (onClearClick)="filter('')"
+                    [showButtonBar]="true"
+                    [showIcon]="true"
+                    (onSelect)="filter($event)"
+                  ></p-calendar>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="statusId" matchMode="equals" [showMenu]="false" [showClearButton]="true">
+                <ng-template pTemplate="filter" let-value="statusId" let-filter="filterCallback">
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="licenseStatuses"
+                    (onChange)="filter($event.value)"
+                    placeholder="Toate"
+                    optionLabel="statusName"
+                    optionValue="statusId"
+                    [showClear]="true">
+                    <ng-template let-option pTemplate="item">
+                      <span [class]="'customer-badge status-' + option.statusId">{{option.statusName}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </th>
           </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
           <tr [pSelectableRow]="row">
             <td>{{rowIndex + 1}}</td>
-            <td>-</td>
+            <td>{{row.licenseNumber}}</td>
             <td>{{getActivityNameById(row.activityId)}}</td>
             <td>
               <div *ngFor="let area of getAreas(row)">

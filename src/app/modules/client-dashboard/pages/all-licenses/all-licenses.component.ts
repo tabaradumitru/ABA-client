@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent, MenuItem } from 'primeng/api';
-import { ALL_LICENSES } from '@constants/loading-constants';
+import { ALL_USER_LICENSES } from '@constants/loading-constants';
 import { LicenseStatus } from '@models/license/license-status';
 import { Activity } from '@models/activity/activity';
 import { Area } from '@models/locality/area';
@@ -27,7 +27,7 @@ import { LicensePreviewDialogComponent } from '@client-dashboard/pages/license-p
 })
 export class AllLicensesComponent implements OnInit {
 
-  loadingConstant = ALL_LICENSES;
+  loadingConstant = ALL_USER_LICENSES;
   licenseStatuses: LicenseStatus[] = [];
   activities: Activity[] = [];
   localities: Area[] = [];
@@ -75,10 +75,35 @@ export class AllLicensesComponent implements OnInit {
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
+    this.filter = {} as LicenseFilter;
     this.filter.page = event.first / event.rows + 1;
     this.filter.pageSize = event.rows;
     this.filter.sortOrder = event.sortOrder;
     this.filter.sortField = event.sortField;
+
+    for (const filtersKey in event.filters) {
+      if (event.filters[filtersKey].value) {
+        this.filter[filtersKey] = event.filters[filtersKey].value;
+
+        if (this.filter.createdAt) {
+          const local = new Date(this.filter.createdAt);
+          local.setHours(local.getHours() + 3);
+          this.filter.createdAt = local.toISOString();
+        }
+
+        if (this.filter.startDate) {
+          const local = new Date(this.filter.startDate);
+          local.setHours(local.getHours() + 3);
+          this.filter.startDate = local.toISOString();
+        }
+
+        if (this.filter.endDate) {
+          const local = new Date(this.filter.endDate);
+          local.setHours(local.getHours() + 3);
+          this.filter.endDate = local.toISOString();
+        }
+      }
+    }
 
     this.loadLicenses();
   }
@@ -145,5 +170,13 @@ export class AllLicensesComponent implements OnInit {
       dismissableMask: true,
       width: '70vw'
     });
+  }
+
+  onClearFilterField(field: string): void {
+    this.filter[field] = '';
+  }
+
+  getNewDate(): Date {
+    return new Date();
   }
 }

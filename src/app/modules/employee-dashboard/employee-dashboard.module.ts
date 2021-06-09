@@ -11,6 +11,7 @@ import { BreadcrumbModule } from '@shared-components/breadcrumb/breadcrumb.modul
 import { RequestPreviewDialogComponent } from './pages/request-preview-dialog/request-preview-dialog.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { EmployeeHomeComponent } from './pages/employee-home/employee-home.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     AllRequestsComponent,
     LicenseComponent,
     RequestComponent,
-    RequestPreviewDialogComponent ],
+    RequestPreviewDialogComponent,
+    EmployeeHomeComponent ],
 	imports: [
 		CommonModule,
 		EmployeeDashboardRoutingModule,

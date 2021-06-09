@@ -42,7 +42,8 @@ export class EmployeeAuthenticationComponent implements OnInit {
       this.configurationService.setLoading(false, this.loadingConstant);
       this.router.navigate(['admin']);
     }, error => {
-      this.notificationService.callError('Eroare', error.toString());
+      this.notificationService.notifyHttpErrors(error);
+      // this.notificationService.callError('Eroare', error.toString());
       this.configurationService.setLoading(false, this.loadingConstant);
     });
   }

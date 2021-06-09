@@ -29,7 +29,7 @@ export class ClientAuthenticationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.configurationService.setLoading(false, this.loadingConstant), 1000);
+    setTimeout(() => this.configurationService.setLoading(false, this.loadingConstant), 2000);
   }
 
   twoStepAuthLogin(): void {
@@ -38,11 +38,12 @@ export class ClientAuthenticationComponent implements OnInit {
     this.authService.twoStepAuthLogin(this.twoStepAuthModel)
       .pipe(first())
       .subscribe(() => {
+        this.router.navigate(['acasa']);
         this.notificationService.callSuccess('Succes', 'Ați fost autentificat cu succes!');
         this.configurationService.setLoading(false, this.loadingConstant);
-        this.router.navigate(['acasa']);
       }, error => {
-        this.notificationService.callError('Eroare', error.toString());
+        this.notificationService.notifyHttpErrors(error);
+        // this.notificationService.callError('Eroare', error.toString());
         this.configurationService.setLoading(false, this.loadingConstant);
       });
   }

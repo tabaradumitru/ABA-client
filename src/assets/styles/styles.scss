@@ -5,7 +5,6 @@
 html,
 body {
   margin: 0 !important;
-  overflow: auto;
   position: relative;
 
   a {
@@ -99,4 +98,26 @@ input:-webkit-autofill:active
 
 .white-text {
   color: $color-white;
+}
+
+
+/* SCROLLBAR */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(18, 18, 18, 1);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1e1e1e;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

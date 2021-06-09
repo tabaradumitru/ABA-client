@@ -10,6 +10,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeModule } from '@shared-packages/prime/prime.module';
 import { BreadcrumbModule } from '@shared-components/breadcrumb/breadcrumb.module';
 import { SharedModule } from '../../shared/shared.module';
+import { LegislationComponent } from './pages/legislation/legislation.component';
+import { FaqComponent } from './pages/faq/faq.component';
+import { ContactsComponent } from './pages/contacts/contacts.component';
+import { ClientHomeComponent } from './pages/client-home/client-home.component';
 
 
 @NgModule({
@@ -19,6 +23,10 @@ import { SharedModule } from '../../shared/shared.module';
     AllRequestsComponent,
     AllLicensesComponent,
     LicensePreviewDialogComponent,
+    LegislationComponent,
+    FaqComponent,
+    ContactsComponent,
+    ClientHomeComponent
   ],
   imports: [
     CommonModule,

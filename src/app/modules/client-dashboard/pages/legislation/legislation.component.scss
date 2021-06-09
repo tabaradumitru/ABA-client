@@ -1,0 +1,12 @@
+::ng-deep {
+  .areas-list {
+    ::marker {
+      font-weight: bold;
+    }
+  }
+
+  ul.law-acts {
+    list-style-type: none;
+    padding-left: 0;
+  }
+}

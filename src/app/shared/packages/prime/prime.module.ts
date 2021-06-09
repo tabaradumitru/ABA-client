@@ -22,6 +22,7 @@ import { BadgeModule } from 'primeng/badge';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { AccordionModule } from 'primeng/accordion';
 
 const exports = [
   ToastModule,
@@ -45,7 +46,8 @@ const exports = [
   BadgeModule,
   DynamicDialogModule,
   TooltipModule,
-  InputNumberModule
+  InputNumberModule,
+  AccordionModule
 ];
 
 @NgModule({

@@ -31,10 +31,10 @@ export class AuthenticationService {
     return true;
   }
 
-  twoStepAuthLogin(loginModel: TwoStepAuthModel): Observable<Response<User>> {
-    return this.http.post<Response<User>>(`${this.apiEndpoint}/login/two-step-auth`, loginModel)
+  twoStepAuthLogin(loginModel: TwoStepAuthModel): Observable<User> {
+    return this.http.post<User>(`${this.apiEndpoint}/login/two-step-auth`, loginModel)
       .pipe(map(response => {
-        const user = response.content;
+        const user = response;
         if (user && user.token) {
           this.localStorageService.setCurrentUser(JSON.stringify(user));
           this.currentUserSubject.next(user);
@@ -44,10 +44,10 @@ export class AuthenticationService {
       }));
   }
 
-  twoStepAuthEmployeeLogin(loginModel: TwoStepAuthModel): Observable<Response<User>> {
-    return this.http.post<Response<User>>(`${this.apiEndpoint}/login/two-step-auth/employee`, loginModel)
+  twoStepAuthEmployeeLogin(loginModel: TwoStepAuthModel): Observable<User> {
+    return this.http.post<User>(`${this.apiEndpoint}/login/two-step-auth/employee`, loginModel)
     .pipe(map(response => {
-      const user = response.content;
+      const user = response;
       if (user && user.token) {
         this.localStorageService.setCurrentUser(JSON.stringify(user));
         this.currentUserSubject.next(user);

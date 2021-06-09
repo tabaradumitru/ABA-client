@@ -5,6 +5,10 @@ import { ClientAuthGuard } from '@guards/client-auth.guard';
 import { AllRequestsComponent } from './pages/all-requests/all-requests.component';
 import { AllLicensesComponent } from './pages/all-licenses/all-licenses.component';
 import { Role } from '@constants/enums';
+import { LegislationComponent } from '@client-dashboard/pages/legislation/legislation.component';
+import { FaqComponent } from '@client-dashboard/pages/faq/faq.component';
+import { ContactsComponent } from '@client-dashboard/pages/contacts/contacts.component';
+import { ClientHomeComponent } from '@client-dashboard/pages/client-home/client-home.component';
 
 const routes: Routes = [
   {
@@ -13,8 +17,12 @@ const routes: Routes = [
     canActivate: [ ClientAuthGuard ],
     data: { roles: [Role.User] },
     children: [
+      { path: '', component: ClientHomeComponent },
       { path: 'cereri', component: AllRequestsComponent},
       { path: 'permise', component: AllLicensesComponent },
+      { path: 'legislatie', component: LegislationComponent },
+      { path: 'intrebari-frecvente', component: FaqComponent },
+      { path: 'contacte', component: ContactsComponent },
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ]
   }

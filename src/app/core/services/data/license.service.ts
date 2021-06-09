@@ -29,6 +29,9 @@ export class LicenseService {
     return this.http.get<License>(`${this.apiEndpoint}/${licenseId}`);
   }
 
+  getLicenses(filter: LicenseFilter): Observable<PaginatedResponse<License[]>> {
+    return this.http.get<PaginatedResponse<License[]>>(`${this.apiEndpoint}/all-licenses`, { params: { ...filter as any } });
+  }
   getUserLicenses(filter: LicenseFilter): Observable<PaginatedResponse<License[]>> {
     return this.http.get<PaginatedResponse<License[]>>(`${this.apiEndpoint}`, { params: { ...filter as any } });
   }

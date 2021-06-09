@@ -31,6 +31,7 @@
         [loading]="configurationService.getLoading(loadingConstant)"
         [lazyLoadOnInit]="false"
         (onLazyLoad)="onLazyLoad($event)"
+        [globalFilterFields]="['activityId', 'localityName', 'createdAt', 'startDate', 'endDate', 'statusId']"
       >
         <ng-template pTemplate="header">
           <tr>
@@ -42,6 +43,106 @@
             <th>Dată Sfârșit</th>
             <th>Status</th>
             <th>Acțiune</th>
+          </tr>
+
+          <tr>
+            <th>-</th>
+            <th>
+              <p-columnFilter field="activityId" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value="areaId" let-filter="filterCallback">
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="activities"
+                    (onChange)="filter($event.value)"
+                    placeholder="Toate"
+                    optionLabel="activityName"
+                    optionValue="activityId"
+                    [showClear]="true">
+                    <ng-template let-option pTemplate="item">
+                      <span [class]="'customer-badge status-' + option.activityId">{{option.activityName}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+            <th>
+              <p-columnFilter
+                type="text"
+                field="localityName"
+                matchMode="contains"
+                [showMenu]="false"
+              ></p-columnFilter>
+            </th>
+
+            <th>
+              <p-columnFilter field="createdAt" matchMode="equals" [showMenu]="false" [showClearButton]="true">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-calendar
+                    dateFormat="dd/mm/yy"
+                    [ngModel]="value"
+                    appendTo="body"
+                    (onClearClick)="filter('')"
+                    [showButtonBar]="true"
+                    [showIcon]="true"
+                    (onSelect)="filter($event)"
+                  ></p-calendar>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+            <th>
+              <p-columnFilter field="startDate" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-calendar
+                    dateFormat="dd/mm/yy"
+                    [ngModel]="value"
+                    appendTo="body"
+                    [showIcon]="true"
+                    (onClearClick)="filter('')"
+                    [showButtonBar]="true"
+                    (onSelect)="filter($event)"
+                  ></p-calendar>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+            <th>
+              <p-columnFilter field="endDate" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-calendar
+                    dateFormat="dd/mm/yy"
+                    [ngModel]="value"
+                    appendTo="body"
+                    [showIcon]="true"
+                    (onClearClick)="filter('')"
+                    [showButtonBar]="true"
+                    (onSelect)="filter($event)"
+                  ></p-calendar>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+            <th>
+              <p-columnFilter field="statusId" matchMode="equals" [showMenu]="false" [showClearButton]="true">
+                <ng-template pTemplate="filter" let-value="statusId" let-filter="filterCallback">
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="requestStatuses"
+                    (onChange)="filter($event.value)"
+                    placeholder="Toate"
+                    optionLabel="statusName"
+                    optionValue="statusId"
+                    [showClear]="true">
+                    <ng-template let-option pTemplate="item">
+                      <span [class]="'customer-badge status-' + option.statusId">{{option.statusName}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+            <th>-</th>
           </tr>
         </ng-template>
 
@@ -64,7 +165,7 @@
             <td>
               <p-badge [value]="getStatusNameById(row.statusId)" [severity]="getStatusSeverityString(row.statusId)"></p-badge>
             </td>
-            <td>
+            <td style="min-width: 8rem">
               <button
                 type="button"
                 pButton
@@ -80,22 +181,23 @@
                 type="button"
                 pButton
                 pRipple
-                class="p-button-rounded p-button-info p-button-sm p-mr-3"
+                class="p-button-rounded p-button-success p-button-sm p-mr-3"
                 icon="pi pi-eye"
                 pTooltip="Vizualizează permisul"
                 tooltipPosition="top"
+                (click)="openLicenseDialog(row.licenseId, row.licenseNumber)"
                 *ngIf="row.statusId === 2"
               ></button>
 
-              <button
-                type="button"
-                pButton
-                pRipple
-                class="p-button-rounded p-button-secondary p-button-sm p-mr-3"
-                icon="pi pi-replay"
-                pTooltip="Reemite cererea"
-                tooltipPosition="top"
-              ></button>
+<!--              <button-->
+<!--                type="button"-->
+<!--                pButton-->
+<!--                pRipple-->
+<!--                class="p-button-rounded p-button-secondary p-button-sm p-mr-3"-->
+<!--                icon="pi pi-replay"-->
+<!--                pTooltip="Reemite cererea"-->
+<!--                tooltipPosition="top"-->
+<!--              ></button>-->
 
               <button
                 type="button"

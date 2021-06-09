@@ -155,7 +155,7 @@ export class AllRequestsComponent implements OnInit {
     this.dialogService.open(RequestPreviewDialogComponent, {
       data: { requestId: selectedRequest.requestId },
       header: 'Vizualizare cerere',
-      dismissableMask: true,
+      dismissableMask: false,
       width: '70vw',
     }).onClose.subscribe((requestWasUpdated: boolean) => {
       if (requestWasUpdated) {
