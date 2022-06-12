@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { CustomRequest } from '@models/request/customRequest';
 import { RequestFilter } from '@models/request/request-filter';
 import { PaginatedResponse } from '@models/response/paginated-response';
-import { Response } from '@models/response/response';
 import { RequestToValidate } from '@models/request/request-to-validate';
 import { RequestToAdd } from '@models/request/request-to-add';
 

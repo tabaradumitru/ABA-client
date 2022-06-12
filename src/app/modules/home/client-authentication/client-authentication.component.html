@@ -109,6 +109,7 @@
                   [maxlength]="13"
                   [format]="false"
                   [(ngModel)]="twoStepAuthModel.idnp"
+                  [ngModelOptions]="{standalone: true}"
                 ></p-inputNumber>
               </div>
 
@@ -117,7 +118,8 @@
                 <input
                   type="password"
                   pInputText
-                  [ngModel]="twoStepAuthModel.password"
+                  [(ngModel)]="twoStepAuthModel.password"
+                  [ngModelOptions]="{standalone: true}"
                   placeholder="Parolă">
               </div>
 

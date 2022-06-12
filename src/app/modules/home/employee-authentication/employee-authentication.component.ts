@@ -29,7 +29,7 @@ export class EmployeeAuthenticationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.configurationService.setLoading(false, this.loadingConstant), 1000);
+    setTimeout(() => this.configurationService.setLoading(false, this.loadingConstant), 2000);
   }
 
   twoStepAuthLogin(): void {
@@ -43,7 +43,6 @@ export class EmployeeAuthenticationComponent implements OnInit {
       this.router.navigate(['admin']);
     }, error => {
       this.notificationService.notifyHttpErrors(error);
-      // this.notificationService.callError('Eroare', error.toString());
       this.configurationService.setLoading(false, this.loadingConstant);
     });
   }
